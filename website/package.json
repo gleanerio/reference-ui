@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "fetch-sparql-endpoint": "^1.9.0",
+    "sparqljs": "^3.4.1"
+  }
+}
