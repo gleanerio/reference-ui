@@ -157,7 +157,8 @@ function graphcall(q, n, o) {
   (async () => {
 
     //var url = new URL("https://graphdb.collaborium.io/repositories/oihdev"),
-      var url = new URL("https://graph.collaborium.io/blazegraph/namespace/oihdev/sparql"),
+      var url = new URL("https://graph.collaborium.io/blazegraph/namespace/aquadocs/sparql"),
+      //var url = new URL("https://graph.collaborium.io/blazegraph/namespace/oihdev/sparql"),
       //var url = new URL("https://graph.openknowledge.network/blazegraph/namespace/oih/sparql"),
       //var url = new URL("https://graph.openknowledge.network/blazegraph/namespace/oih/sparql"),
       //var url = new URL("http://192.168.86.45:32775/blazegraph/namespace/oih/sparql"),
