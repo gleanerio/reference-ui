@@ -155,13 +155,7 @@ function graphcall(q, n, o) {
   x.style.display = "block";
 
   (async () => {
-
-    //var url = new URL("https://graphdb.collaborium.io/repositories/oihdev"),
-      var url = new URL("https://graph.collaborium.io/blazegraph/namespace/aquadocs/sparql"),
-      //var url = new URL("https://graph.collaborium.io/blazegraph/namespace/oihdev/sparql"),
-      //var url = new URL("https://graph.openknowledge.network/blazegraph/namespace/oih/sparql"),
-      //var url = new URL("https://graph.openknowledge.network/blazegraph/namespace/oih/sparql"),
-      //var url = new URL("http://192.168.86.45:32775/blazegraph/namespace/oih/sparql"),
+       var url = new URL("https://ts.collaborium.io/blazegraph/namespace/development/sparql"),
 
       params = {
         query: `prefix prov: <http://www.w3.org/ns/prov#>
@@ -173,17 +167,16 @@ function graphcall(q, n, o) {
         PREFIX schemaold: <http://schema.org/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-        SELECT DISTINCT ?g  ?s  ?wat ?orgname ?domain ?type ?score ?name ?url ?lit ?description ?headline
+        SELECT DISTINCT ?s  ?wat ?orgname ?domain ?type ?score ?name ?url ?lit ?description ?headline
         WHERE
         {
-
            ?lit bds:search "${ressparql}" .
            ?lit bds:matchAllTerms "false" .
            ?lit bds:relevance ?score .
-           ?s ?p ?lit .
-
+           ?lit bds:minRelevance "0.30" .
            graph ?g {
             ?s ?p ?lit .
+            FILTER isIRI(?s)
             ${tq}
             OPTIONAL { ?s schema:name ?name .   }
             OPTIONAL { ?s schema:headline ?headline .   }
@@ -196,15 +189,11 @@ function graphcall(q, n, o) {
            ?hm prov:wasAttributedTo ?wat .
            ?wat rdf:name ?orgname .
            ?wat rdfs:seeAlso ?domain
-
-
         }
-        ORDER BY DESC(?score)
+        ORDER BY DESC(?score)  ?name
         LIMIT ${n}
         OFFSET ${o}
           ` };
-
-
 
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
     console.log(params.query);
