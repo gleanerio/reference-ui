@@ -92,14 +92,17 @@ var tribute = new Tribute({
   }]
 });
 
-tribute.attach(document.getElementById("search"));
+tribute.attach(document.getElementById("q"));
+
+
 // end tribute
 
-var mytext = getUrlParam('search', '');
+
+var mytext = getUrlParam('q', '');
 var res = mytext.replaceAll("+", " ").replaceAll("%3A", ":");
-var box = document.getElementById("search");
+var qbox = document.getElementById("q");
 if (res) {
-  box.value = res;
+  qbox.value = res;
 }
 
 if (res) {
@@ -148,8 +151,8 @@ function graphcall(q, n, o) {
     tq = ` BIND (schema:${splt[1]} AS ?type) . ?s rdf:type ?type . `;
   }
 
-  document.getElementById('resultsmain').style.display = "block";
-  //document.getElementById('progress').style.visibility = "visible";
+  var x = document.getElementById("loadspinner");
+  x.style.display = "block";
 
   (async () => {
        var url = new URL("https://ts.collaborium.io/blazegraph/namespace/development/sparql"),
@@ -200,7 +203,7 @@ function graphcall(q, n, o) {
       .then(function (response) {
         // handle success
         console.log(response);
-        const el = document.querySelector('#article');
+        const el = document.querySelector('#container2');
         render(showresults(response), el);
       })
       .catch(function (error) {
@@ -213,7 +216,7 @@ function graphcall(q, n, o) {
 
 
     // const content = await rawResponse.blob();  // .json();
-  //document.getElementById('progress').style.display = "none";
+    x.style.display = "none";
 
   })();
 }
@@ -221,6 +224,7 @@ function graphcall(q, n, o) {
 // lithtml render function
 const showresults = (content) => {
   // console.log(content);
+
 
   var barval = content.data.results.bindings;
   var count = Object.keys(barval).length;
@@ -235,6 +239,8 @@ const showresults = (content) => {
 
     // console.log("--- in  NEW data files loop ---")
     // itemTemplates.push(html`<div class="row" style="margin-top:30px"> <div class="col-12"> <pre> <code>`);
+
+
 
     var s;
     if (getSafe(() => barval[i].s.value)) {
@@ -255,7 +261,7 @@ const showresults = (content) => {
     var nameshort = "Name unavailable";
     if (getSafe(() => barval[i].name.value)) {
       name = barval[i].name.value;
-      nameshort = truncate.apply(barval[i].name.value, [90, true]);
+      nameshort = truncate.apply(barval[i].name.value, [45, true]);
     }
 
     var resurl;
@@ -302,19 +308,76 @@ const showresults = (content) => {
     // class="resheader">${headTemplate}</div>
     // <div class="rescontainer">${containerTemplate} </div> </div>`);
 
-    itemTemplates.push(html` <small> <mark>#${type}</mark> </small>
-       <small>  <ins> Source: <a class="secondary" target="_blank" href="${domain}">  ${orgname}</a> </ins> </small><br>
-        <h5 style="margin-bottom:0;margin-top:0">  <a target="_blank" href="${url}" > ${nameshort} </a></h5>
-        <p style="margin-bottom:80px">
+
+
+    itemTemplates.push(html`
+		<article class="border w-2/4 mx-auto border-gray-400 rounded-lg md:p-4 bg-white sm:py-3 py-4 px-2 m-10"
+    data-article-path="/removearticlelinksemantics" data-content-user-id="112962">
+    <div role="presentation">
+      <div>
+        <div class="m-2">
+          <div class="flex items-center">
+            <div class="mr-2">
+              <a href="/toberesolved">
+                <!-- <img class="rounded-full w-8"
+                  src="./images/cdf.png"
+                  alt="hagnerd profile" loading="lazy"> -->
+              </a>
+            </div>
+            <div>
+              <p>
+                <a traget="_blank" href="${domain}" class="text text-gray-700 text-sm hover:text-black">Source: ${orgname} </a>
+              </p>
+              <a href="/removescorelink"
+                class="text-xs text-gray-600 hover:text-black">
+                <time datetime="2019-08-02T13:58:42.196Z">Score: ${score}</time>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-left:15px" class="mb-2">
+            <a href="" class="text-sm text-gray-600 p-1 hover:text-black">
+            <span class="text-opacity-50">#</span>
+            ${type}
+            </a>
+        </div>
+
+
+        <div class="pl-12 md:pl-10 xs:pl-10">
+          <h2 class="text-2xl font-bold mb-2 hover:text-blue-600 leading-7">
+            <a target="_blank" href="${url}" >
+              ${nameshort}
+            </a>
+          </h2>
+
+          <div class="mb-1 leading-6">
             ${desc}
-        </p> `);
+          </div>
+          <div class="flex justify-between items-center">
+            <div class="flex">
+             <!--  external links here -->
+            </div>
+            <div class="flex items-center">
+              <small class="mr-2 text-gray-600"> </small>
+            <!--
+			  <button type="button"
+                class="bg-gray-400 rounded text-sm px-3 py-2 text-current hover:text-black hover:bg-gray-500">
+                <span>View Details</span>
+              </button>
+
+			  -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+
+		`);
 
   }
-
-  // Add in button for next set
-  itemTemplates.push(html` <a href="#" class="secondary" ">Next Page</a>`);
-
-
 
   return html`
 	<div style="margin:30px">

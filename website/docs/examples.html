@@ -10,10 +10,7 @@
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    <script type="module" src="js/main.js"></script>
-
-    <link rel="stylesheet" href="js/tribute.css" />
-    <script src="js/tribute.js"></script>
+   
 
     <!-- Pico.css -->
     <link rel="stylesheet"  href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"  />
@@ -26,14 +23,14 @@
       <ul>
         <li>
           <a href="/index.html" aria-label="Home">
-            <img src="./images/logo.png" style="height: 24px;width: 24px;" />
+            <img src="/images/logo.png" style="height: 24px;width: 24px;" />
           </a>
         </li>
         <li><strong>Ocean InfoHub</strong></li>
       </ul>
       <ul>
-        <li><a href="./docs/examples.html" class="secondary">Examples</a></li>
-        <li><a href="./docs/about.html" class="secondary">Docs</a></li>
+        <li><a href="/docs/examples.html" class="secondary">Examples</a></li>
+        <li><a href="/docs/about.html" class="secondary">Docs</a></li>
         <li>
           <a  href="https://github.com/iodepo/odis-arch" class="contrast"  aria-label="OIH GitHub repository" >
             <svg
@@ -56,24 +53,28 @@
 
     <!-- Header -->
     <header class="container" style="padding-bottom: 0">
-      <form>
-        <!-- Search -->
-        <input
-          type="search"
-          id="search"
-          name="search"
-          placeholder="Search"
-          onclick="event.preventDefault()"
-        />
-      </form>
+       <h3>Examples</h3>
     </header>
     <!-- ./ Header -->
 
     <!-- Main -->
-    <main      id="resultsmain"      class="container"      style="display: none; padding-top: 0" >
+    <main      class="container"      style="  padding-top: 0" >
       <article id="article">
-        <progress id="progress-2"></progress>
-      </article>
+      <h2>Basic search</h2>
+      <p>
+        <a href="/index.html?search=ocean+acidification">Ocean acidification</a>
+      </p>
+      <footer><small>This is a simple search</small></footer>
+    </article> 
+
+    <article id="article">
+      <h2>Basic search with type</h2>
+      <p>
+        <a href="/index.html?search=ocean+acidiification+type%3ACourse+">Ocean acidification type:Course</a>
+      </p>
+      <footer><small>This is a simple search with type set to Course</small></footer>
+    </article> 
+
     </main>
  
     <!-- Minimal theme switcher -->
